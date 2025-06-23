@@ -10,26 +10,27 @@
       background: #fdf6e3;
       margin: 20px;
       color: #333;
+      font-size: 1.4em;
     }
     h1, h2, h3 {
       color: #2a7f62;
     }
     .task-group {
-      margin-bottom: 20px;
-      padding: 15px;
+      margin-bottom: 30px;
+      padding: 20px;
       border: 2px solid #cce5cc;
       border-radius: 10px;
       background: #ffffff;
     }
     label {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
     button {
       background: #80cfa9;
       color: white;
       border: none;
-      padding: 10px 20px;
+      padding: 15px 25px;
       margin-top: 10px;
       font-size: 1em;
       border-radius: 8px;
@@ -40,10 +41,10 @@
     }
     #points-display {
       font-weight: bold;
-      font-size: 1.4em;
+      font-size: 1.6em;
       margin-top: 20px;
       background: #fff3cd;
-      padding: 10px;
+      padding: 15px;
       border-radius: 10px;
       border: 2px dashed #ffcc00;
       width: fit-content;
@@ -58,10 +59,10 @@
 
   <div class="task-group" id="morning-tasks">
     <h2>🌅 Morgens</h2>
-    <label><input type="checkbox" data-task="aufstehen" onclick="completeTask(this, '06:25', 5)"> Aufstehen vor 6:25 Uhr</label>
-    <label><input type="checkbox" data-task="essen" onclick="completeTask(this, null, 2)"> Frühstück essen</label>
-    <label><input type="checkbox" data-task="zaehne" onclick="completeTask(this, '06:40', 3)"> Zähne putzen um 6:40 Uhr</label>
-    <label><input type="checkbox" data-task="haare" onclick="completeTask(this, '06:45', 2)"> Haare kämmen um 6:45 Uhr</label>
+    <label><input type="checkbox" data-task="aufstehen" onclick="completeTask(this, '06:25', 5)"> Aufstehen vor 6:25 Uhr (5 Punkte)</label>
+    <label><input type="checkbox" data-task="essen" onclick="completeTask(this, null, 2)"> Frühstück essen (2 Punkte)</label>
+    <label><input type="checkbox" data-task="zaehne" onclick="completeTask(this, '06:40', 3)"> Zähne putzen um 6:40 Uhr (3 Punkte)</label>
+    <label><input type="checkbox" data-task="haare" onclick="completeTask(this, '06:45', 2)"> Haare kämmen um 6:45 Uhr (2 Punkte)</label>
   </div>
 
   <button onclick="startAfternoon()">➡️ Nachmittag starten</button>
@@ -70,16 +71,16 @@
     <h2>☀️ Nachmittag</h2>
     <div id="weekday-tasks"></div>
     <h3>🧽 Täglich:</h3>
-    <label><input type="checkbox" data-task="abräumen-morgens" onclick="completeTask(this, null, 1)"> Tisch abräumen (morgens)</label>
-    <label><input type="checkbox" data-task="abräumen-mittags" onclick="completeTask(this, null, 1)"> Tisch abräumen (mittags)</label>
-    <label><input type="checkbox" data-task="abräumen-abends" onclick="completeTask(this, null, 1)"> Tisch abräumen (abends)</label>
+    <label><input type="checkbox" data-task="abräumen-morgens" onclick="completeTask(this, null, 1)"> Tisch abräumen (morgens) (1 Punkt)</label>
+    <label><input type="checkbox" data-task="abräumen-mittags" onclick="completeTask(this, null, 1)"> Tisch abräumen (mittags) (1 Punkt)</label>
+    <label><input type="checkbox" data-task="abräumen-abends" onclick="completeTask(this, null, 1)"> Tisch abräumen (abends) (1 Punkt)</label>
   </div>
 
   <div id="points-display">Punkte: 0</div>
 
   <div class="task-group">
     <h2>🎁 Belohnungen einlösen</h2>
-    <div class="shop-item"><button onclick="redeemTabletReward()">1 Stunde Tabletzeit (10 Punkte, nur mit 4 guten Tagen)</button></div>
+    <div class="shop-item"><button onclick="redeemTabletReward()">1 Stunde Tabletzeit (12 Punkte, nur mit 4 guten Tagen)</button></div>
     <div class="shop-item"><button onclick="redeemReward(5, '1 Folge Serie')">1 Folge Serie (5 Punkte)</button></div>
     <div class="shop-item"><button onclick="redeemReward(8, '1 Stunde mit Mama spielen')">1 Stunde mit Mama spielen (8 Punkte)</button></div>
     <div class="shop-item"><button onclick="redeemReward(8, '1 Stunde mit Papa spielen')">1 Stunde mit Papa spielen (8 Punkte)</button></div>
@@ -146,15 +147,15 @@
       let content = "<h3>📅 Heute: " + weekday + "</h3>";
 
       if (["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"].includes(weekday)) {
-        content += '<label><input type="checkbox" data-task="alleine-30min" onclick="completeTask(this, null, 5)"> 30 Minuten alleine spielen</label>';
+        content += '<label><input type="checkbox" data-task="alleine-30min" onclick="completeTask(this, null, 5)"> 30 Minuten alleine spielen (5 Punkte)</label>';
       }
 
       if (weekday === "Montag") {
-        content += '<label><input type="checkbox" data-task="tisch-abendbrot" onclick="completeTask(this, null, 3)"> Tisch fürs Abendbrot decken</label>';
+        content += '<label><input type="checkbox" data-task="tisch-abendbrot" onclick="completeTask(this, null, 3)"> Tisch fürs Abendbrot decken (3 Punkte)</label>';
       } else if (weekday === "Dienstag") {
-        content += '<label><input type="checkbox" data-task="treppe" onclick="completeTask(this, null, 4)"> Treppe putzen</label>';
+        content += '<label><input type="checkbox" data-task="treppe" onclick="completeTask(this, null, 4)"> Treppe putzen (4 Punkte)</label>';
       } else if (weekday === "Mittwoch") {
-        content += '<label><input type="checkbox" data-task="geschirrspueler" onclick="completeTask(this, null, 4)"> Geschirrspüler ein-/ausräumen</label>';
+        content += '<label><input type="checkbox" data-task="geschirrspueler" onclick="completeTask(this, null, 4)"> Geschirrspüler ein-/ausräumen (4 Punkte)</label>';
       }
 
       container.innerHTML = content;
@@ -174,12 +175,12 @@
 
     function redeemTabletReward() {
       const days = Object.keys(dayScores);
-      const fullDays = days.filter(d => dayScores[d] >= 20); // 20 Punkte als Beispiel für vollständigen Tag
+      const fullDays = days.filter(d => dayScores[d] >= 20);
 
-      if (fullDays.length >= 4) {
-        redeemReward(10, "1 Stunde Tabletzeit");
+      if (fullDays.length >= 4 && points >= 12) {
+        redeemReward(12, "1 Stunde Tabletzeit");
       } else {
-        alert("Du brauchst mindestens 4 volle Tage (z. B. je 20 Punkte), um Tabletzeit zu bekommen.");
+        alert("Du brauchst mindestens 4 volle Tage (je 20 Punkte) und 12 Punkte, um Tabletzeit zu bekommen.");
       }
     }
 
