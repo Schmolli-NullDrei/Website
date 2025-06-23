@@ -2,210 +2,194 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Punkteplan für Kinder</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meine Aufgaben</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
     body {
-      font-family: 'Fredoka', sans-serif;
-      background: #fef8ec;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
       margin: 0;
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
+
     .container {
-      max-width: 700px;
+      max-width: 600px;
       width: 100%;
-      background: #fff7e6;
-      padding: 30px 20px;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 14px rgba(0,0,0,0.12);
+      padding: 20px 25px;
+      box-sizing: border-box;
     }
+
     h1, h2 {
       text-align: center;
-      color: #d97904;
+      color: #333;
     }
-    .task {
-      display: flex;
-      align-items: center;
-      background: #fff;
-      margin: 10px 0;
-      padding: 12px 16px;
-      border-radius: 16px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.08);
-      font-size: 1.1em;
-      transition: transform 0.2s ease;
-    }
-    .task:hover {
-      transform: scale(1.01);
-    }
-    .task i {
-      font-size: 24px;
-      margin-right: 12px;
-    }
-    .task.orange i { color: #ffa500; }
-    .task.blue i { color: #4a90e2; }
-    .task.green i { color: #4caf50; }
-    .task.pink i { color: #e91e63; }
 
-    .task input[type="checkbox"] {
-      transform: scale(1.4);
-      margin-right: 12px;
-    }
     label {
-      flex: 1;
-    }
-    .points {
-      font-weight: bold;
-      color: #007a3d;
-      text-align: center;
-      font-size: 1.3em;
-    }
-    .button {
       display: block;
-      margin: 20px auto;
-      background: #ffcc00;
-      color: #000;
-      padding: 10px 20px;
-      border: none;
+      margin: 10px 0;
       font-size: 1.1em;
-      border-radius: 12px;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
-    .reward {
-      background: #fff3c4;
-      border: 2px dashed #f0a500;
-      padding: 12px;
-      border-radius: 16px;
+
+    .points {
+      float: right;
+      color: #555;
+      font-weight: bold;
+    }
+
+    .summary {
       margin-top: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #2e7d32;
       text-align: center;
+    }
+
+    .rewards {
+      margin-top: 20px;
+      padding-top: 10px;
+      border-top: 2px solid #ccc;
+    }
+
+    .rewards ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .rewards li::before {
+      content: "🎁 ";
+    }
+
+    input[type="checkbox"] {
+      margin-right: 10px;
+      transform: scale(1.2);
+    }
+
+    .only { display: none; }
+
+    /* Anzeigen nach Wochentag */
+    .mon.show-mon,
+    .tue.show-tue,
+    .wed.show-wed,
+    .thu.show-thu,
+    .fri.show-fri,
+    .sat.show-sat,
+    .sun.show-sun {
+      display: block;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🌟 Mein Punkteplan</h1>
-    <div class="points">Punkte: <span id="score">0</span></div>
+    <h1>🌟 Meine Aufgaben</h1>
+    <h2>🕖 Morgenaufgaben</h2>
+    <label>
+      <input type="checkbox" id="aufstehen" />
+      ⏰ Aufstehen vor 6:25 Uhr <span class="points">1 Punkt</span>
+    </label>
+    <label>
+      <input type="checkbox" id="essen" />
+      🍞 Frühstück essen <span class="points">2 Punkte</span>
+    </label>
+    <label>
+      <input type="checkbox" id="zaehne" />
+      🪥 Zähne putzen um 6:40 Uhr <span class="points">2 Punkte</span>
+    </label>
+    <label>
+      <input type="checkbox" id="haare" />
+      💇‍♀️ Haare kämmen um 6:45 Uhr <span class="points">1 Punkt</span>
+    </label>
 
-    <h2>Morgens</h2>
-    <div class="task orange">
-      <input type="checkbox" data-points="2" data-limit="6:25" />
-      <i class="fa-solid fa-alarm-clock"></i>
-      <label>Vor 6:25 Uhr aufstehen <span class="points">(+2)</span></label>
-    </div>
-    <div class="task orange">
-      <input type="checkbox" data-points="1" />
-      <i class="fa-solid fa-utensils"></i>
-      <label>Frühstück essen <span class="points">(+1)</span></label>
-    </div>
-    <div class="task blue">
-      <input type="checkbox" data-points="1" />
-      <i class="fa-solid fa-tooth"></i>
-      <label>Zähne putzen um 6:40 Uhr <span class="points">(+1)</span></label>
-    </div>
-    <div class="task blue">
-      <input type="checkbox" data-points="1" />
-      <i class="fa-solid fa-comb"></i>
-      <label>Haare kämmen um 6:45 Uhr <span class="points">(+1)</span></label>
-    </div>
+    <h2>🕓 Nachmittagsaufgaben</h2>
+    <label>
+      <input type="checkbox" id="spielen" />
+      🎲 30 Minuten alleine spielen (Mo–Fr) <span class="points">5 Punkte</span>
+    </label>
+    <label class="mon show-mon">
+      <input type="checkbox" id="deckentisch" />
+      🍽️ Tisch fürs Abendbrot decken (Mo) <span class="points">4 Punkte</span>
+    </label>
+    <label class="tue show-tue">
+      <input type="checkbox" id="treppeputzen" />
+      🧹 Treppe putzen (Di) <span class="points">4 Punkte</span>
+    </label>
+    <label class="wed show-wed">
+      <input type="checkbox" id="geschirr" />
+      🧼 Geschirrspüler ein-/ausräumen (Mi) <span class="points">4 Punkte</span>
+    </label>
+    <label>
+      <input type="checkbox" id="tisch-morgens" />
+      🍽️ Tisch abräumen morgens (Mo–So) <span class="points">2 Punkte</span>
+    </label>
+    <label>
+      <input type="checkbox" id="tisch-mittags" />
+      🍽️ Tisch abräumen mittags (Mo–So) <span class="points">2 Punkte</span>
+    </label>
+    <label>
+      <input type="checkbox" id="tisch-abends" />
+      🍽️ Tisch abräumen abends (Mo–So) <span class="points">2 Punkte</span>
+    </label>
+    <label class="mon show-mon tue show-tue wed show-wed thu show-thu fri show-fri">
+      <input type="checkbox" id="fruehstuecksdose" />
+      🍱 Frühstücksdose wegräumen (Mo–Fr) <span class="points">1 Punkt</span>
+    </label>
 
-    <h2>Nachmittag</h2>
-    <div class="task pink">
-      <input type="checkbox" data-points="1" data-days="Mo,Di,Mi,Do,Fr" />
-      <i class="fa-solid fa-puzzle-piece"></i>
-      <label>30 Minuten allein spielen <span class="points">(+1)</span></label>
-    </div>
-    <div class="task green">
-      <input type="checkbox" data-points="1" data-days="Mo" />
-      <i class="fa-solid fa-utensils"></i>
-      <label>Tisch fürs Abendbrot decken (Mo) <span class="points">(+1)</span></label>
-    </div>
-    <div class="task green">
-      <input type="checkbox" data-points="1" data-days="Di" />
-      <i class="fa-solid fa-broom"></i>
-      <label>Treppe putzen (Di) <span class="points">(+1)</span></label>
-    </div>
-    <div class="task green">
-      <input type="checkbox" data-points="1" data-days="Mi" />
-      <i class="fa-solid fa-plate-wheat"></i>
-      <label>Geschirrspüler ein-/ausräumen (Mi) <span class="points">(+1)</span></label>
-    </div>
-    <div class="task green">
-      <input type="checkbox" data-points="1" data-days="Mo,Di,Mi,Do,Fr" />
-      <i class="fa-solid fa-box"></i>
-      <label>Frühstücksdose wegräumen (Mo–Fr) <span class="points">(+1)</span></label>
-    </div>
+    <div class="summary">Gesammelte Punkte: <span id="total">0</span></div>
 
-    <h2>Tisch abräumen</h2>
-    <div class="task green">
-      <input type="checkbox" data-points="1" />
-      <i class="fa-solid fa-trash-can"></i>
-      <label>Morgens <span class="points">(+1)</span></label>
-    </div>
-    <div class="task green">
-      <input type="checkbox" data-points="1" />
-      <i class="fa-solid fa-trash-can"></i>
-      <label>Mittags <span class="points">(+1)</span></label>
-    </div>
-    <div class="task green">
-      <input type="checkbox" data-points="1" />
-      <i class="fa-solid fa-trash-can"></i>
-      <label>Abends <span class="points">(+1)</span></label>
-    </div>
-
-    <button class="button" onclick="resetDay()">🔄 Tages-Reset</button>
-
-    <div class="reward">
-      <p>🎁 <strong>Belohnung:</strong> 1 Stunde Tabletzeit = 20 Punkte</p>
+    <div class="rewards">
+      <h2>🎉 Belohnungen</h2>
+      <ul>
+        <li>10 Punkte = 1 Stunde Tabletzeit</li>
+        <li>20 Punkte = Kinonachmittag</li>
+        <li>30 Punkte = Lieblingsessen aussuchen</li>
+        <li>50 Punkte = Überraschung</li>
+      </ul>
     </div>
   </div>
 
   <script>
-    const scoreEl = document.getElementById('score');
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    let score = 0;
+    const totalEl = document.getElementById('total');
 
-    function updateScore() {
-      score = 0;
+    const taskPoints = {
+      aufstehen: 1,
+      essen: 2,
+      zaehne: 2,
+      haare: 1,
+      spielen: 5,
+      deckentisch: 4,
+      treppeputzen: 4,
+      geschirr: 4,
+      "tisch-morgens": 2,
+      "tisch-mittags": 2,
+      "tisch-abends": 2,
+      fruehstuecksdose: 1
+    };
+
+    function updateTotal() {
+      let total = 0;
       checkboxes.forEach(cb => {
-        if (cb.checked) {
-          score += parseInt(cb.dataset.points || 0);
+        if (cb.checked && taskPoints[cb.id]) {
+          total += taskPoints[cb.id];
         }
       });
-      scoreEl.textContent = score;
+      totalEl.textContent = total;
     }
 
-    checkboxes.forEach(cb => {
-      cb.addEventListener('change', updateScore);
-      const timeLimit = cb.dataset.limit;
-      const allowedDays = cb.dataset.days?.split(',') || null;
+    checkboxes.forEach(cb => cb.addEventListener('change', updateTotal));
+    updateTotal();
 
-      if (timeLimit) {
-        const now = new Date();
-        const [h, m] = timeLimit.split(':').map(Number);
-        const limitTime = new Date();
-        limitTime.setHours(h, m, 0);
-        if (now > limitTime) cb.disabled = true;
-      }
-
-      if (allowedDays) {
-        const today = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'][new Date().getDay()];
-        if (!allowedDays.includes(today)) cb.disabled = true;
-      }
+    // Zeige passende Aufgaben je nach Wochentag
+    const dayClasses = ['sun','mon','tue','wed','thu','fri','sat'];
+    const today = new Date().getDay();
+    document.querySelectorAll(`.${dayClasses[today]}`).forEach(el => {
+      el.classList.add(`show-${dayClasses[today]}`);
     });
-
-    function resetDay() {
-      checkboxes.forEach(cb => cb.checked = false);
-      updateScore();
-    }
   </script>
 </body>
 </html>
