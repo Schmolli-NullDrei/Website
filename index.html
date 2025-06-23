@@ -3,394 +3,462 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Punkte-Tracker Kinder</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet" />
+<title>Aufgaben & Punkte - Kids Dashboard</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
   body {
-    font-family: 'Fredoka', cursive, sans-serif;
-    background: linear-gradient(135deg, #a6d8f0, #f9e2b3);
-    margin: 20px;
-    color: #2c3e50;
-    font-size: 1.4em;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    background: linear-gradient(135deg, #f9f1e7 0%, #c1e1f4 100%);
+    color: #333;
+    margin: 0;
+    padding: 0 10px 30px;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
-  h1,h2,h3 {
+  header {
     text-align: center;
-    color: #2b6e49;
-    text-shadow: 0 1px 2px #fff;
+    padding: 15px 10px 0;
+    color: #2a4d69;
+    text-shadow: 1px 1px 0 #f0e9d2;
   }
-  .task-group {
-    background: #ffffffcc;
-    border-radius: 18px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    padding: 20px 25px;
-    margin-bottom: 30px;
-    width: 320px;
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.2em;
+  }
+  h2 {
+    color: #4b86b4;
+    margin-bottom: 0.5em;
+    border-bottom: 3px solid #f4d35e;
+    padding-bottom: 0.3em;
+  }
+  button {
+    background-color: #f4d35e;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 22px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgb(0 0 0 / 0.1);
     transition: background-color 0.3s ease;
+    margin: 15px 0;
+  }
+  button:hover {
+    background-color: #f9d976;
+  }
+  .container {
+    max-width: 600px;
+    margin: 0 auto 50px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 14px rgb(0 0 0 / 0.12);
+    padding: 20px 25px;
   }
   label {
     display: flex;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
     cursor: pointer;
-    user-select: none;
   }
   label input[type="checkbox"] {
-    transform: scale(1.5);
     margin-right: 14px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
-    accent-color: #52b788;
+    accent-color: #f4d35e;
+    transition: transform 0.15s ease;
   }
-  button {
-    background: #52b788;
-    border: none;
-    color: white;
-    padding: 15px 28px;
-    margin: 10px 6px 0 0;
-    border-radius: 15px;
-    font-weight: 700;
-    font-size: 1.1em;
-    cursor: pointer;
-    box-shadow: 0 3px 8px rgba(82, 183, 136, 0.5);
-    transition: background-color 0.25s ease, transform 0.15s ease;
+  label input[type="checkbox"]:checked {
+    transform: scale(1.2);
+  }
+  .points {
+    font-weight: bold;
+    color: #f4a261;
+    margin-left: auto;
+    font-size: 1rem;
     user-select: none;
   }
-  button:hover {
-    background-color: #40916c;
-    transform: scale(1.05);
+  .task-group {
+    margin-bottom: 30px;
   }
-  #points-display {
-    font-weight: 900;
-    font-size: 1.8em;
-    padding: 15px 30px;
-    margin: 20px auto;
-    width: fit-content;
-    border-radius: 20px;
-    background: #d4f0d4;
-    color: #2b6e49;
-    box-shadow: inset 0 0 10px #a6d8a6;
+  .hidden {
+    display: none;
+  }
+  #afternoonTasks {
+    margin-top: 20px;
+  }
+  .weekdays {
     text-align: center;
+    margin-bottom: 10px;
+    color: #777;
+    font-size: 0.9rem;
   }
-  .shop-item {
-    margin-top: 14px;
+  .weekdays span {
+    margin: 0 6px;
+    padding: 3px 7px;
+    border-radius: 4px;
+    background-color: #e0f0f8;
+    color: #3572a5;
+    font-weight: 600;
   }
-  #weekly-overview {
-    background: #f0f9ff;
-    border-radius: 15px;
-    padding: 18px;
-    box-shadow: 0 5px 10px #b0d9ffcc;
-    max-width: 320px;
-    margin: 30px auto;
-  }
-  .day-status {
-    display: inline-block;
-    background-color: #9ee7a8;
-    padding: 8px 14px;
-    border-radius: 12px;
+  #pointsSummary {
+    text-align: center;
+    font-size: 1.4rem;
+    margin-top: 15px;
+    color: #2a4d69;
     font-weight: 700;
-    margin: 4px 6px 4px 0;
-    color: #1b3a17;
-    box-shadow: 0 2px 5px #82b366aa;
     user-select: none;
   }
-  .icon {
-    margin-right: 12px;
-    font-size: 1.4em;
-    user-select: none;
+  #redeemSection {
+    background: #f4f4f4;
+    border-radius: 12px;
+    padding: 20px 15px;
+    margin-top: 20px;
+    box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.05);
   }
-  .animate-pulse {
-    animation: pulse 2s infinite;
+  #redeemSection h3 {
+    color: #f4a261;
+    margin-bottom: 15px;
+  }
+  #redeemSection button {
+    background-color: #e76f51;
+    color: white;
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border: none;
+    margin-top: 8px;
+    box-shadow: 0 4px 6px rgb(0 0 0 / 0.1);
+    transition: background-color 0.3s ease;
+  }
+  #redeemSection button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  #redeemSection button:hover:not(:disabled) {
+    background-color: #d85c3b;
+  }
+  /* Animation */
+  .task-checked {
+    animation: pulse 0.4s ease forwards;
   }
   @keyframes pulse {
-    0%, 100% {opacity: 1;}
-    50% {opacity: 0.7;}
+    0% {transform: scale(1);}
+    50% {transform: scale(1.15);}
+    100% {transform: scale(1);}
+  }
+  /* Scrollbar for mobile */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #f4d35e;
+    border-radius: 8px;
   }
 </style>
 </head>
 <body>
+<header>
+  <h1>Mein Aufgaben- & Punkteplan</h1>
+  <p>Erledige deine Aufgaben, sammle Punkte und löse tolle Belohnungen ein!</p>
+</header>
 
-<h1>✨ Punkte-Tracker ✨</h1>
-
-<div class="task-group" id="morning-tasks">
-  <h2>🌅 Morgens</h2>
-  <label><input type="checkbox" data-task="aufstehen" /> <span class="icon">⏰</span> Aufstehen vor 6:25 Uhr (5 Punkte)</label>
-  <label><input type="checkbox" data-task="essen" /> <span class="icon">🍞</span> Frühstück essen (2 Punkte)</label>
-  <label><input type="checkbox" data-task="zaehne" /> <span class="icon">🦷</span> Zähne putzen um 6:40 Uhr (3 Punkte)</label>
-  <label><input type="checkbox" data-task="haare" /> <span class="icon">💇‍♀️</span> Haare kämmen um 6:45 Uhr (2 Punkte)</label>
+<div class="container" id="morningContainer">
+  <h2>Morgen Aufgaben</h2>
+  <div class="task-group" id="morningTasks">
+    <label>
+      <input type="checkbox" id="aufstehen" />
+      Aufstehen vor 6:25 Uhr <span class="points">1 Punkt</span>
+    </label>
+    <label>
+      <input type="checkbox" id="essen" />
+      Frühstück essen <span class="points">2 Punkte</span>
+    </label>
+    <label>
+      <input type="checkbox" id="zaehne" />
+      Zähne putzen um 6:40 Uhr <span class="points">2 Punkte</span>
+    </label>
+    <label>
+      <input type="checkbox" id="haare" />
+      Haare kämmen um 6:45 Uhr <span class="points">1 Punkt</span>
+    </label>
+  </div>
+  <button id="startAfternoonBtn">Nachmittag starten</button>
 </div>
 
-<button id="btn-start-afternoon">➡️ Nachmittag starten</button>
-<button id="btn-reset-day">🔄 Tages-Reset</button>
+<div class="container hidden" id="afternoonContainer">
+  <h2>Nachmittag Aufgaben</h2>
 
-<div class="task-group" id="afternoon-tasks" style="display:none;">
-  <h2>☀️ Nachmittag</h2>
-  <div id="weekday-tasks"></div>
-  <h3>🧽 Täglich:</h3>
-  <label><input type="checkbox" data-task="abräumen-morgens" /> <span class="icon">🍽️</span> Tisch abräumen (morgens) (1 Punkt)</label>
-  <label><input type="checkbox" data-task="abräumen-mittags" /> <span class="icon">🍽️</span> Tisch abräumen (mittags) (1 Punkt)</label>
-  <label><input type="checkbox" data-task="abräumen-abends" /> <span class="icon">🍽️</span> Tisch abräumen (abends) (1 Punkt)</label>
+  <div class="weekdays" id="weekdayDisplay">Heute ist: <span id="weekdayName"></span></div>
+
+  <div class="task-group" id="afternoonTasks">
+    <label>
+      <input type="checkbox" id="spielen" />
+      30 Minuten alleine spielen (Mo-Fr) <span class="points">5 Punkte</span>
+    </label>
+    <label class="mon only">
+      <input type="checkbox" id="deckentisch" />
+      Tisch fürs Abendbrot decken (Mo) <span class="points">4 Punkte</span>
+    </label>
+    <label class="tue only">
+      <input type="checkbox" id="treppeputzen" />
+      Treppe putzen (Di) <span class="points">4 Punkte</span>
+    </label>
+    <label class="wed only">
+      <input type="checkbox" id="geschirr" />
+      Geschirrspüler ein-/ausräumen (Mi) <span class="points">4 Punkte</span>
+    </label>
+    <label>
+      <input type="checkbox" id="tisch-morgens" />
+      Tisch abräumen morgens (Mo-So) <span class="points">2 Punkte</span>
+    </label>
+    <label>
+      <input type="checkbox" id="tisch-mittags" />
+      Tisch abräumen mittags (Mo-So) <span class="points">2 Punkte</span>
+    </label>
+    <label>
+      <input type="checkbox" id="tisch-abends" />
+      Tisch abräumen abends (Mo-So) <span class="points">2 Punkte</span>
+    </label>
+  </div>
 </div>
 
-<div id="points-display">Punkte: 0</div>
+<div class="container" id="pointsContainer">
+  <h2>Punkteübersicht</h2>
+  <div id="pointsSummary">Gesamtpunkte: 0</div>
 
-<div class="task-group">
-  <h2>🎁 Belohnungen einlösen</h2>
-  <div class="shop-item"><button id="redeem-tablet">📱 1 Stunde Tabletzeit (12 Punkte, 4 volle Tage)</button></div>
-  <div class="shop-item"><button data-cost="5" data-name="1 Folge Serie" class="redeem-btn">🎬 1 Folge Serie (5 Punkte)</button></div>
-  <div class="shop-item"><button data-cost="8" data-name="1 Stunde mit Mama spielen" class="redeem-btn">👩 1 Stunde mit Mama spielen (8 Punkte)</button></div>
-  <div class="shop-item"><button data-cost="8" data-name="1 Stunde mit Papa spielen" class="redeem-btn">👨 1 Stunde mit Papa spielen (8 Punkte)</button></div>
-</div>
+  <div id="redeemSection">
+    <h3>Belohnungen einlösen</h3>
+    <button id="redeemTabletBtn" disabled>1 Stunde Tabletzeit (20 Punkte)</button><br />
+    <button id="redeemMamaBtn" disabled>1 Stunde Zeit mit Mama (10 Punkte)</button><br />
+    <button id="redeemPapaBtn" disabled>1 Stunde Zeit mit Papa (10 Punkte)</button><br />
+  </div>
 
-<div id="weekly-overview">
-  <h3>📆 Wochenübersicht</h3>
-  <div id="week-status"></div>
+  <button id="resetDayBtn" style="margin-top: 20px; background:#f07167; color:white;">Tag zurücksetzen</button>
 </div>
 
 <script>
-  // === Daten und Konstanten ===
-  const pointsPerTask = {
-    aufstehen: 5,
+(() => {
+  const taskPoints = {
+    aufstehen: 1,
     essen: 2,
-    zaehne: 3,
-    haare: 2,
-    spielen: 3,
-    tischDecken: 4,
-    treppePutzen: 4,
-    gespüler: 4,
-    "abräumen-morgens": 1,
-    "abräumen-mittags": 1,
-    "abräumen-abends": 1
-  };
-  // Aufgaben Nachmittag Wochentage
-  const afternoonWeekdayTasks = {
-    1: { key: "spielen", text: "30 Min alleine spielen (3 Punkte)" }, // Montag-Freitag
-    1: { key: "spielen", text: "30 Min alleine spielen (3 Punkte)" }, 
-    2: { key: "tischDecken", text: "Tisch fürs Abendbrot decken (4 Punkte)" },
-    3: { key: "treppePutzen", text: "Treppe putzen (4 Punkte)" },
-    4: { key: "gespüler", text: "Geschirrspüler ein-/ausräumen (4 Punkte)" },
-    5: { key: "spielen", text: "30 Min alleine spielen (3 Punkte)" },
+    zaehne: 2,
+    haare: 1,
+    spielen: 5,
+    deckentisch: 4,
+    treppeputzen: 4,
+    geschirr: 4,
+    "tisch-morgens": 2,
+    "tisch-mittags": 2,
+    "tisch-abends": 2
   };
 
-  // ===============================================
-  // --- Daten im localStorage speichern und laden
-  const LS_KEY = "punkteTrackerStatus";
-
-  // Zustand laden
-  let state = JSON.parse(localStorage.getItem(LS_KEY)) || {
-    date: new Date().toISOString().slice(0,10),
-    tasks: {},  // {taskKey: boolean}
-    points: 0,
-    redeemedTabletDays: 0,
-    redeemed: {}
+  const redeemPoints = {
+    tablet: 20,
+    mama: 10,
+    papa: 10
   };
 
-  // Speichern Funktion
-  function saveState(){
-    localStorage.setItem(LS_KEY, JSON.stringify(state));
+  // Elements
+  const morningContainer = document.getElementById('morningContainer');
+  const afternoonContainer = document.getElementById('afternoonContainer');
+  const startAfternoonBtn = document.getElementById('startAfternoonBtn');
+  const pointsSummary = document.getElementById('pointsSummary');
+  const redeemTabletBtn = document.getElementById('redeemTabletBtn');
+  const redeemMamaBtn = document.getElementById('redeemMamaBtn');
+  const redeemPapaBtn = document.getElementById('redeemPapaBtn');
+  const resetDayBtn = document.getElementById('resetDayBtn');
+  const weekdayName = document.getElementById('weekdayName');
+
+  const checkboxes = document.querySelectorAll('input[type=checkbox]');
+  let points = 0;
+
+  // Initialize weekday display
+  function updateWeekdayDisplay() {
+    const days = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+    const d = new Date();
+    weekdayName.textContent = days[d.getDay()];
+    // Show/hide tasks by weekday classes
+    checkboxes.forEach(cb => {
+      const label = cb.parentElement;
+      label.classList.remove('hidden');
+      if(label.classList.contains('mon') && d.getDay() !== 1) label.classList.add('hidden');
+      if(label.classList.contains('tue') && d.getDay() !== 2) label.classList.add('hidden');
+      if(label.classList.contains('wed') && d.getDay() !== 3) label.classList.add('hidden');
+    });
   }
 
-  // --- Hilfsfunktionen
-  function updatePoints(){
+  // Load state from localStorage
+  function loadState() {
+    const saved = localStorage.getItem('tasksStatus');
+    if(saved) {
+      const obj = JSON.parse(saved);
+      checkboxes.forEach(cb => {
+        cb.checked = !!obj[cb.id];
+      });
+    }
+    points = parseInt(localStorage.getItem('points')) || 0;
+    updatePointsDisplay();
+    updateRedeemButtons();
+    updateWeekdayDisplay();
+
+    // Show afternoon if any afternoon task checked
+    if (['spielen', 'deckentisch', 'treppeputzen', 'geschirr', 'tisch-morgens', 'tisch-mittags', 'tisch-abends']
+        .some(id => document.getElementById(id).checked)) {
+      morningContainer.classList.add('hidden');
+      afternoonContainer.classList.remove('hidden');
+    }
+  }
+
+  // Save state to localStorage
+  function saveState() {
+    const obj = {};
+    checkboxes.forEach(cb => obj[cb.id] = cb.checked);
+    localStorage.setItem('tasksStatus', JSON.stringify(obj));
+    localStorage.setItem('points', points);
+  }
+
+  // Calculate total points from checked tasks
+  function calculatePoints() {
     let total = 0;
-    for(let key in state.tasks){
-      if(state.tasks[key]){
-        total += pointsPerTask[key] || 0;
-      }
-    }
-    state.points = total;
-    document.getElementById("points-display").textContent = `Punkte: ${total}`;
-    saveState();
-    updateRedeemButtons();
-    updateWeekOverview();
-  }
-
-  // --- Checkboxen aktualisieren nach Status
-  function updateCheckboxes(){
-    document.querySelectorAll("input[type=checkbox]").forEach(cb=>{
-      const task = cb.dataset.task;
-      if(task && state.tasks[task]){
-        cb.checked = true;
-      } else {
-        cb.checked = false;
+    checkboxes.forEach(cb => {
+      if(cb.checked) {
+        total += taskPoints[cb.id] || 0;
       }
     });
+    points = total;
   }
 
-  // --- Check ob Tabletzeit freigeschaltet ist (mind 4 Tage voll Punkte)
-  function canRedeemTablet(){
-    return state.redeemedTabletDays >= 4 && state.points >= 12;
+  function updatePointsDisplay() {
+    pointsSummary.textContent = `Gesamtpunkte: ${points}`;
   }
 
-  // --- Punkte einlösen Buttons aktivieren/deaktivieren
-  function updateRedeemButtons(){
-    // Tabletzeit Button
-    document.getElementById("redeem-tablet").disabled = !canRedeemTablet();
-    // Andere Buttons
-    document.querySelectorAll(".redeem-btn").forEach(btn=>{
-      const cost = parseInt(btn.dataset.cost);
-      btn.disabled = cost > state.points;
-    });
+  function updateRedeemButtons() {
+    redeemTabletBtn.disabled = points < redeemPoints.tablet;
+    redeemMamaBtn.disabled = points < redeemPoints.mama;
+    redeemPapaBtn.disabled = points < redeemPoints.papa;
   }
 
-  // --- Wochenübersicht aktualisieren
-  function updateWeekOverview(){
-    const weekStatus = document.getElementById("week-status");
-    weekStatus.innerHTML = "";
-    const today = new Date();
-    const dayMs = 24*60*60*1000;
-
-    for(let i=0; i<7; i++){
-      const date = new Date(today.getTime() - (6-i)*dayMs);
-      const dateStr = date.toISOString().slice(0,10);
-      const dayName = date.toLocaleDateString('de-DE',{ weekday: 'short' });
-      const dayPoints = state.weekPoints && state.weekPoints[dateStr] || 0;
-      const color = dayPoints >= 10 ? '#9ee7a8' : '#f5a5a5';
-      const div = document.createElement("div");
-      div.textContent = `${dayName}: ${dayPoints} P`;
-      div.className = "day-status";
-      div.style.backgroundColor = color;
-      weekStatus.appendChild(div);
-    }
-  }
-
-  // --- Reset Tagesstatus
-  function resetDay(){
-    // Vorher Punkte speichern für Wochenübersicht
-    if(!state.weekPoints) state.weekPoints = {};
-    state.weekPoints[state.date] = state.points;
-
-    // Neuer Tag
+  // Check time constraints
+  function checkTimeConstraints() {
     const now = new Date();
-    state.date = now.toISOString().slice(0,10);
-    state.tasks = {};
-    state.points = 0;
-    state.redeemedTabletDays = 0;
-    state.redeemed = {};
-    saveState();
-    updateCheckboxes();
-    updatePoints();
-    updateRedeemButtons();
-    updateWeekOverview();
+    const after625 = now.getHours() > 6 || (now.getHours() === 6 && now.getMinutes() > 25);
+    const after640 = now.getHours() > 6 || (now.getHours() === 6 && now.getMinutes() > 40);
+    const after645 = now.getHours() > 6 || (now.getHours() === 6 && now.getMinutes() > 45);
+
+    // Disable Aufstehen if after 6:25 and not checked yet
+    const aufstehenCb = document.getElementById('aufstehen');
+    if(after625 && !aufstehenCb.checked) aufstehenCb.disabled = true;
+
+    // Disable Zähne putzen if after 6:40 and not checked yet
+    const zaehneCb = document.getElementById('zaehne');
+    if(after640 && !zaehneCb.checked) zaehneCb.disabled = true;
+
+    // Disable Haare kämmen if after 6:45 and not checked yet
+    const haareCb = document.getElementById('haare');
+    if(after645 && !haareCb.checked) haareCb.disabled = true;
   }
 
-  // --- Aufgaben für Nachmittag anzeigen nach Wochentag
-  function showAfternoonWeekdayTasks(){
-    const container = document.getElementById("weekday-tasks");
-    container.innerHTML = "";
-    const day = new Date().getDay(); // 0=So,1=Mo,...
-
-    // Montags-Freitags: 30min spielen (3 Punkte)
-    if(day >=1 && day <=5){
-      const label = document.createElement("label");
-      label.innerHTML = `<input type="checkbox" data-task="spielen" /> <span class="icon">🎲</span> 30 Minuten alleine spielen (3 Punkte)`;
-      container.appendChild(label);
-    }
-    // Montags - Tisch decken (4 Punkte)
-    if(day === 1){
-      const label = document.createElement("label");
-      label.innerHTML = `<input type="checkbox" data-task="tischDecken" /> <span class="icon">🍽️</span> Tisch fürs Abendbrot decken (4 Punkte)`;
-      container.appendChild(label);
-    }
-    // Dienstag - Treppe putzen (4 Punkte)
-    if(day === 2){
-      const label = document.createElement("label");
-      label.innerHTML = `<input type="checkbox" data-task="treppePutzen" /> <span class="icon">🧹</span> Treppe putzen (4 Punkte)`;
-      container.appendChild(label);
-    }
-    // Mittwoch - Geschirrspüler ein-/ausräumen (4 Punkte)
-    if(day === 3){
-      const label = document.createElement("label");
-      label.innerHTML = `<input type="checkbox" data-task="gespüler" /> <span class="icon">🧼</span> Geschirrspüler ein-/ausräumen (4 Punkte)`;
-      container.appendChild(label);
+  // Animate checkbox on change
+  function animateCheckbox(cb) {
+    if(cb.checked) {
+      cb.classList.add('task-checked');
+      setTimeout(() => cb.classList.remove('task-checked'), 400);
     }
   }
 
-  // --- Eventhandler für Checkboxen
-  document.body.addEventListener("change", e=>{
-    if(e.target.matches("input[type=checkbox]")){
-      const task = e.target.dataset.task;
-      if(!task) return;
-      state.tasks[task] = e.target.checked;
-      updatePoints();
-
-      // Tabletzeit Tage hochzählen, wenn volle Punkte an Tag erreicht
-      if(state.points >= 12) {
-        state.redeemedTabletDays = (state.redeemedTabletDays || 0) + 1;
-      } else {
-        state.redeemedTabletDays = 0;
-      }
-      saveState();
+  // Event listeners for checkboxes
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', () => {
+      animateCheckbox(cb);
+      checkTimeConstraints();
+      calculatePoints();
+      updatePointsDisplay();
       updateRedeemButtons();
-    }
-  });
-
-  // --- Nachmittag starten
-  document.getElementById("btn-start-afternoon").addEventListener("click", ()=>{
-    document.getElementById("afternoon-tasks").style.display = "block";
-    document.getElementById("btn-start-afternoon").style.display = "none";
-    showAfternoonWeekdayTasks();
-    updateCheckboxes();
-  });
-
-  // --- Tagesreset
-  document.getElementById("btn-reset-day").addEventListener("click", ()=>{
-    if(confirm("Willst du den Tag wirklich zurücksetzen?")){
-      resetDay();
-    }
-  });
-
-  // --- Punkte einlösen
-  document.querySelectorAll(".redeem-btn").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const cost = parseInt(btn.dataset.cost);
-      if(state.points >= cost){
-        state.points -= cost;
-        state.redeemed[btn.dataset.name] = (state.redeemed[btn.dataset.name] || 0) + 1;
-        alert(`Belohnung '${btn.dataset.name}' eingelöst!`);
-        updatePoints();
-        saveState();
-      } else {
-        alert("Nicht genug Punkte!");
-      }
+      saveState();
     });
   });
 
-  // --- Tabletzeit Button
-  document.getElementById("redeem-tablet").addEventListener("click", ()=>{
-    if(canRedeemTablet()){
-      state.points -= 12;
-      alert("Du hast 1 Stunde Tabletzeit bekommen!");
-      state.redeemedTabletDays = 0;
-      updatePoints();
+  // Start afternoon tasks
+  startAfternoonBtn.addEventListener('click', () => {
+    morningContainer.classList.add('hidden');
+    afternoonContainer.classList.remove('hidden');
+    saveState();
+  });
+
+  // Redeem buttons functionality
+  redeemTabletBtn.addEventListener('click', () => {
+    if(points >= redeemPoints.tablet) {
+      alert('Du hast 1 Stunde Tabletzeit eingelöst! Viel Spaß!');
+      points -= redeemPoints.tablet;
+      uncheckAllTasks();
+    }
+    updatePointsDisplay();
+    updateRedeemButtons();
+    saveState();
+  });
+
+  redeemMamaBtn.addEventListener('click', () => {
+    if(points >= redeemPoints.mama) {
+      alert('Du hast 1 Stunde Zeit mit Mama eingelöst! Genieße die gemeinsame Zeit!');
+      points -= redeemPoints.mama;
+      uncheckAllTasks();
+    }
+    updatePointsDisplay();
+    updateRedeemButtons();
+    saveState();
+  });
+
+  redeemPapaBtn.addEventListener('click', () => {
+    if(points >= redeemPoints.papa) {
+      alert('Du hast 1 Stunde Zeit mit Papa eingelöst! Genieße die gemeinsame Zeit!');
+      points -= redeemPoints.papa;
+      uncheckAllTasks();
+    }
+    updatePointsDisplay();
+    updateRedeemButtons();
+    saveState();
+  });
+
+  // Uncheck all tasks helper
+  function uncheckAllTasks() {
+    checkboxes.forEach(cb => {
+      cb.checked = false;
+    });
+  }
+
+  // Reset day button
+  resetDayBtn.addEventListener('click', () => {
+    if(confirm('Möchtest du wirklich alle Aufgaben zurücksetzen?')) {
+      uncheckAllTasks();
+      points = 0;
+      updatePointsDisplay();
+      updateRedeemButtons();
+      morningContainer.classList.remove('hidden');
+      afternoonContainer.classList.add('hidden');
+      checkTimeConstraints();
       saveState();
-    } else {
-      alert("Du brauchst mindestens 4 Tage volle Punkte und 12 Punkte!");
     }
   });
 
-  // --- Zeit mit Mama/Papa Buttons
-  // schon mit redeem-btn und eventlistener abgedeckt
+  // On load
+  window.addEventListener('load', () => {
+    loadState();
+    checkTimeConstraints();
+  });
 
-  // --- Initialisierung
-  function init(){
-    // Prüfe Zeit: Aufstehen nur vor 6:25 Uhr machbar
+  // Auto reset daily at midnight (optional, if page stays open)
+  setInterval(() => {
     const now = new Date();
-    const aufstehenCb = document.querySelector("input[data-task=aufstehen]");
-    if(now.getHours() > 6 || (now.getHours() === 6 && now.getMinutes() > 25)){
-      aufstehenCb.disabled = true;
-      aufstehenCb.parentElement.style.opacity = 0.5;
+    if(now.getHours() === 0 && now.getMinutes() === 0) {
+      resetDayBtn.click();
     }
+  }, 60*1000);
 
-    updateCheckboxes();
-    updatePoints();
-    updateRedeemButtons();
-    updateWeekOverview();
-  }
-  init();
+})();
 </script>
-
 </body>
 </html>
